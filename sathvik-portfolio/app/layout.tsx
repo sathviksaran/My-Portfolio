@@ -1,57 +1,58 @@
 import "./globals.css";
 
 import ThemeProvider from "@/components/providers/ThemeProvider";
+
 import LoadingScreen from "@/components/LoadingScreen";
 import Background from "@/components/effects/Background";
 import CursorGlow from "@/components/effects/CursorGlow";
 import ScrollProgress from "@/components/effects/ScrollProgress";
+import BackToTop from "@/components/effects/BackToTop";
+
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import BackToTop from "@/components/effects/BackToTop";
+
 import { Toaster } from "react-hot-toast";
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
-    <html
-      lang="en" suppressHydrationWarning
-    >
+    <html lang="en" suppressHydrationWarning>
       <body>
+        <ThemeProvider>
+          <LoadingScreen />
 
-  <ThemeProvider>
+          <Background />
 
-    <LoadingScreen />
+          <CursorGlow />
 
-    <Background />
+          <ScrollProgress />
 
-    <CursorGlow />
+          <Navbar />
 
-    <ScrollProgress />
+          <main>{children}</main>
 
-    <Navbar />
+          <Toaster
+            position="top-right"
+            reverseOrder={false}
+            gutter={8}
+            toastOptions={{
+              duration: 4000,
+              style: {
+                background: "#0f172a",
+                color: "#ffffff",
+                border: "1px solid #1e293b",
+              },
+            }}
+          />
 
-    {children}
+          <Footer />
 
-    <Toaster
-  position="top-right"
-  toastOptions={{
-    style: {
-      background: "#0f172a",
-      color: "#fff",
-    },
-  }}
-/>
-
-    <Footer />
-
-    <BackToTop />
-
-  </ThemeProvider>
-
-</body>
+          <BackToTop />
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

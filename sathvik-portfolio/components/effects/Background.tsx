@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export default function Background() {
   return (
-    <div className="fixed inset-0 -z-50 overflow-hidden bg-background transition-colors duration-300">
+    <div className="fixed inset-0 -z-50 overflow-hidden bg-white dark:bg-slate-950 transition-colors duration-300">
 
       {/* Grid */}
 
@@ -12,13 +12,9 @@ export default function Background() {
   className="
     absolute
     inset-0
-    opacity-40
-    dark:opacity-100
-    bg-[linear-gradient(rgba(0,0,0,0.04)_1px,transparent_1px),
-    linear-gradient(90deg,rgba(0,0,0,0.04)_1px,transparent_1px)]
-    dark:bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),
-    linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)]
     bg-[size:45px_45px]
+    bg-[linear-gradient(rgba(0,0,0,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.04)_1px,transparent_1px)]
+    dark:bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)]
   "
 />
 
