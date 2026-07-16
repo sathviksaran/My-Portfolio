@@ -1,56 +1,34 @@
-export const fadeUp = {
+import { Variants } from "framer-motion";
+
+export const fadeInUp: Variants = {
   hidden: {
     opacity: 0,
-    y: 40,
+    y: 30,
   },
   visible: {
     opacity: 1,
     y: 0,
-    transition: {
-      duration: .7,
-    },
   },
 };
 
-export const fadeLeft = {
+export const slideLeft: Variants = {
   hidden: {
     opacity: 0,
-    x: -60,
+    x: -40,
   },
   visible: {
     opacity: 1,
     x: 0,
-    transition: {
-      duration: .8,
-    },
   },
 };
 
-export const fadeRight = {
+export const slideRight: Variants = {
   hidden: {
     opacity: 0,
-    x: 60,
+    x: 40,
   },
   visible: {
     opacity: 1,
     x: 0,
-    transition: {
-      duration: .8,
-    },
   },
 };
-
-export const zoom = {
-  hidden:{
-    opacity:0,
-    scale:.8,
-  },
-
-  visible:{
-    opacity:1,
-    scale:1,
-    transition:{
-      duration:.7,
-    }
-  }
-}

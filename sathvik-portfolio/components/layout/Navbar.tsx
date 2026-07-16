@@ -54,12 +54,12 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "border-b border-slate-800 bg-slate-950/70 backdrop-blur-xl"
-          : "bg-transparent"
-      }`}
-    >
+  className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+    scrolled
+      ? "border-b border-slate-200 bg-white/80 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/80"
+      : "bg-transparent"
+  }`}
+>
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
 
         {/* Logo */}
@@ -91,13 +91,13 @@ export default function Navbar() {
 
           <div className="hidden sm:block">
 
-            <h1 className="text-lg font-bold leading-none">
+            <h1 className="text-lg font-bold leading-none text-slate-900 dark:text-white">
 
               Sathvik Saran
 
             </h1>
 
-            <p className="mt-1 text-xs text-slate-400">
+            <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
 
               Associate IT Consultant
 
@@ -127,8 +127,8 @@ export default function Navbar() {
                 <span
                   className={`transition duration-300 ${
                     isActive
-                      ? "text-blue-500"
-                      : "text-slate-300 hover:text-blue-400"
+  ? "text-blue-600 dark:text-blue-400"
+  : "text-slate-700 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400"
                   }`}
                 >
                   {item.name}
@@ -162,21 +162,32 @@ export default function Navbar() {
 
             <SheetTrigger
               className="
-              rounded-xl
-              border
-              border-slate-700
-              p-2
-              transition
-              hover:border-blue-500
-              hover:bg-slate-900
-              "
+rounded-xl
+border
+border-slate-300
+bg-white/80
+p-2
+transition
+hover:border-blue-500
+hover:bg-slate-100
+dark:border-slate-700
+dark:bg-slate-900/80
+dark:hover:bg-slate-800
+"
               aria-label="Open Menu"
             >
               <Menu className="h-6 w-6" />
             </SheetTrigger>
                         <SheetContent
               side="right"
-              className="border-slate-800 bg-slate-950 text-white"
+              className="
+border-slate-200
+bg-white
+text-slate-900
+dark:border-slate-800
+dark:bg-slate-950
+dark:text-white
+"
             >
               <div className="mt-16 flex flex-col gap-6">
 
@@ -194,8 +205,8 @@ export default function Navbar() {
                           href={item.href}
                           className={`text-lg font-medium transition ${
                             isActive
-                              ? "text-blue-500"
-                              : "text-slate-300 hover:text-blue-400"
+  ? "text-blue-600 dark:text-blue-400"
+  : "text-slate-700 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400"
                           }`}
                         >
                           {item.name}
@@ -207,7 +218,7 @@ export default function Navbar() {
 
                 })}
 
-                <div className="mt-8 border-t border-slate-800 pt-6">
+                <div className="mt-8 border-t border-slate-200 dark:border-slate-800 pt-6">
 
                   <a
                     href="/Sathvik_Saran_Resume.pdf"
@@ -226,7 +237,7 @@ export default function Navbar() {
                     font-semibold
                     text-white
                     transition
-                    hover:scale-105
+                    hover:scale-105 hover:shadow-lg hover:shadow-blue-500/20
                     "
                   >
                     Download Resume
