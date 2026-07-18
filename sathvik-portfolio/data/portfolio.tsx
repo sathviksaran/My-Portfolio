@@ -1,5 +1,8 @@
 import { Portfolio } from "@/types/portfolio";
 
+import { FaGithub, FaLinkedin } from "react-icons/fa6";
+import { Mail } from "lucide-react";
+
 export const portfolio: Portfolio = {
   personal: {
     fullName: "Sathvik Saran Atchukolu",
@@ -44,12 +47,23 @@ export const portfolio: Portfolio = {
   },
 ],
 
-  social: {
-    github: "https://github.com/sathviksaran",
-    linkedin:
-      "https://linkedin.com/in/sathvik-saran-atchukolu-403733227",
-    email: "mailto:atchukolus@gmail.com",
+  social: [
+  {
+    name: "GitHub",
+    href: "https://github.com/yourusername",
+    icon: <FaGithub size={20} />,
   },
+  {
+    name: "LinkedIn",
+    href: "https://linkedin.com/in/yourusername",
+    icon: <FaLinkedin size={20} />,
+  },
+  {
+    name: "Email",
+    href: "mailto:your@email.com",
+    icon: <Mail size={20} />,
+  },
+],
 
   stats: [
   {
@@ -304,5 +318,10 @@ export const portfolio: Portfolio = {
       ],
     },
   ],
+},
+contact: {
+  email: "your@email.com",
+  phone: "+91 9876543210",
+  location: "Ongole, Andhra Pradesh",
 },
 };

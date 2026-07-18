@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface Personal {
   fullName: string;
   firstName: string;
@@ -14,10 +16,10 @@ export interface Personal {
   profileImage: string;
 }
 
-export interface Social {
-  github: string;
-  linkedin: string;
-  email: string;
+export interface SocialLink {
+  name: string;
+  href: string;
+  icon: ReactNode;
 }
 
 export interface TechnologyItem {
@@ -84,14 +86,22 @@ export interface GitHub {
   bio: string;
   featuredRepositories: GitHubRepository[];
 }
+
+export interface Contact {
+  email: string;
+  phone: string;
+  location: string;
+}
+
 export interface Portfolio {
   personal: Personal;
-  social: Social;
+  social: SocialLink[];
   stats: Stat[];
   featuredTechnologies: FeaturedTechnology[];
   technologies: TechnologyCategory[];
   experience: Experience[];
   projects: Project[];
   github: GitHub;
+  contact: Contact;
 }
 

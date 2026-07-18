@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { TypeAnimation } from "react-type-animation";
 
 import HeroButtons from "./HeroButtons";
-import HeroSocial from "./HeroSocial";
+import SocialLinks from "@/components/ui/SocialLinks";
 
 import { portfolio } from "@/data/portfolio";
 
@@ -172,7 +172,9 @@ export default function HeroLeft() {
 
       {/* Social */}
 
-      <HeroSocial />
+      {/* Social Links */}
+
+        <SocialLinks className="mt-10" />
     </motion.div>
   );
 }
