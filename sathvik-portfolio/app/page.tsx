@@ -3,7 +3,7 @@ import About from "@/components/sections/about/About";
 import Experience from "@/components/sections/experience";
 import Skills from "@/components/sections/skills";
 import Projects from "@/components/sections/projects";
-import Github from "@/components/sections/github";
+import Github from "@/components/sections/github/Github";
 import Contact from "@/components/contact/Contact";
 
 export default function Home() {
