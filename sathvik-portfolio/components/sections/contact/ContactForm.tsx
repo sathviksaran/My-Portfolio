@@ -1,167 +1,173 @@
 "use client";
 
-import { useState } from "react";
-import { Send } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useForm, useWatch } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import GlassCard from "@/components/ui/GlassCard";
-import GradientButton from "@/components/ui/GradientButton";
+import SubmitButton from "./SubmitButton";
 
-interface FormData {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-}
+import ContactField from "./ContactField";
+import ContactTextarea from "./ContactTextArea";
+import ContactStatus from "./ContactStatus";
 
-const initialForm: FormData = {
-  name: "",
-  email: "",
-  subject: "",
-  message: "",
-};
+import {
+  contactSchema,
+  type ContactFormData,
+} from "@/lib/validations/contact/contactSchema";
+
+import type { ContactStatusState } from "@/types/contact";
+
+import { sendContactForm } from "@/app/api/contact/contact";
+import TurnstileWidget from "./TurnstileWidget";
+
 
 export default function ContactForm() {
-  const [form, setForm] = useState(initialForm);
-  const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState<{
-    type: "success" | "error";
-    message: string;
-  } | null>(null);
+  const [status, setStatus] =
+  useState<ContactStatusState | null>(null);
 
-  function handleChange(
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) {
-    setForm((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+  const [token, setToken] = useState("");
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    control,
+    formState: {
+      errors,
+      isSubmitting,
+    },
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      subject: "",
+      message: "",
+    },
+  });
+
+  const message = useWatch({ control, name: "message" })
+
+  useEffect(() => {
+    if (status?.type !== "success") return;
+
+    const timer = setTimeout(() => {
+      setStatus(null);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [status]);
+
+  async function onSubmit(data: ContactFormData) {
+  setStatus(null);
+
+  if (!token) {
+    setStatus({
+      type: "error",
+      message: "Please complete the CAPTCHA verification.",
+    });
+    return;
   }
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  try {
+    const result = await sendContactForm({
+      ...data,
+      token,
+    });
 
-    setStatus(null);
+    setStatus({
+      type: "success",
+      message: result.message,
+    });
 
-    if (
-      !form.name ||
-      !form.email ||
-      !form.subject ||
-      !form.message
-    ) {
-      setStatus({
-        type: "error",
-        message: "Please fill in all fields.",
-      });
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      // TODO:
-      // await fetch("/api/contact", { ... })
-
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      setStatus({
-        type: "success",
-        message: "Your message has been sent successfully!",
-      });
-
-      setForm(initialForm);
-    } catch {
-      setStatus({
-        type: "error",
-        message: "Something went wrong. Please try again.",
-      });
-    } finally {
-      setLoading(false);
-    }
+    reset();
+    setToken("");
+  } catch (error) {
+    setStatus({
+      type: "error",
+      message:
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again.",
+    });
   }
+}
 
   return (
     <GlassCard className="p-8">
       <form
-        onSubmit={handleSubmit}
-        className="space-y-5"
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
       >
-        <Input
+        <fieldset disabled={isSubmitting} className="space-y-5">
+
+        <ContactField
           label="Name"
-          name="name"
-          value={form.name}
-          onChange={handleChange}
+          required
+          placeholder="John Doe"
+          autoComplete="name"
+          registration={register("name")}
+          error={errors.name}
         />
 
-        <Input
+        <ContactField
           label="Email"
           type="email"
-          name="email"
-          value={form.email}
-          onChange={handleChange}
+          required
+          placeholder="john@example.com"
+          autoComplete="email"
+          registration={register("email")}
+          error={errors.email}
         />
 
-        <Input
+        <ContactField
+          label="Phone"
+          type="tel"
+          placeholder="+91 9876543210"
+          autoComplete="tel"
+          registration={register("phone")}
+          error={errors.phone}
+        />
+
+        <ContactField
           label="Subject"
-          name="subject"
-          value={form.subject}
-          onChange={handleChange}
+          required
+          placeholder="Project Inquiry"
+          registration={register("subject")}
+          error={errors.subject}
         />
 
-        <div>
-          <label className="mb-2 block text-sm font-medium">
-            Message
-          </label>
+        <ContactTextarea
+  label="Message"
+  registration={register("message")}
+  error={errors.message}
+  required
+  maxLength={500}
+  currentLength={message?.length ?? 0}
+  placeholder="Tell me about your project..."
+/>
 
-          <textarea
-            rows={6}
-            name="message"
-            value={form.message}
-            onChange={handleChange}
-            className="w-full rounded-xl border border-slate-300 bg-transparent px-4 py-3 outline-none transition focus:border-blue-500 dark:border-slate-700"
-          />
-        </div>
+<TurnstileWidget
+  onSuccess={setToken}
+  onExpire={() => setToken("")}
+  onError={() => setToken("")}
+/>
 
-        {status && (
-          <p
-            className={
-              status.type === "success"
-                ? "text-green-500"
-                : "text-red-500"
-            }
-          >
-            {status.message}
-          </p>
-        )}
+        <ContactStatus status={status} />
 
-        <GradientButton
-          type="submit"
-          loading={loading}
-          icon={<Send size={18} />}
-          className="w-full"
-        >
-          Send Message
-        </GradientButton>
+        <SubmitButton
+  status={
+    isSubmitting
+      ? "loading"
+      : status?.type === "success"
+      ? "success"
+      : "idle"
+  }
+/>
+</fieldset>
       </form>
     </GlassCard>
-  );
-}
-
-interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string;
-}
-
-function Input({ label, ...props }: InputProps) {
-  return (
-    <div>
-      <label className="mb-2 block text-sm font-medium">
-        {label}
-      </label>
-
-      <input
-        {...props}
-        className="w-full rounded-xl border border-slate-300 bg-transparent px-4 py-3 outline-none transition focus:border-blue-500 dark:border-slate-700"
-      />
-    </div>
   );
 }

@@ -11,12 +11,15 @@ import {
   Text,
 } from "@react-email/components";
 
+import { SITE } from "@/lib/constants/site";
+import { styles } from "./styles";
+
 interface ContactNotificationProps {
-  name: string;
-  email: string;
-  phone?: string;
-  subject: string;
-  message: string;
+  readonly name: string;
+  readonly email: string;
+  readonly phone?: string;
+  readonly subject: string;
+  readonly message: string;
 }
 
 export default function ContactNotification({
@@ -31,160 +34,96 @@ export default function ContactNotification({
       <Head />
 
       <Preview>
-        📩 New Portfolio Contact from {name}
+        📩 New portfolio contact from {name} — {subject}
       </Preview>
 
-      <Body
-        style={{
-          backgroundColor: "#f4f4f5",
-          fontFamily:
-            "Inter, Arial, Helvetica, sans-serif",
-          padding: "30px 0",
-        }}
-      >
-        <Container
-          style={{
-            maxWidth: "620px",
-            margin: "0 auto",
-            backgroundColor: "#ffffff",
-            borderRadius: "16px",
-            overflow: "hidden",
-            border: "1px solid #e5e7eb",
-          }}
-        >
+      <Body style={styles.body}>
+        <Container style={styles.container}>
           {/* Header */}
-
-          <Section
-            style={{
-              background:
-                "linear-gradient(135deg,#2563eb,#06b6d4)",
-              padding: "35px",
-              textAlign: "center",
-            }}
-          >
-            <Heading
-              style={{
-                color: "#ffffff",
-                margin: 0,
-                fontSize: "28px",
-              }}
-            >
+          <Section style={styles.header}>
+            <Heading style={styles.heading}>
               📩 New Portfolio Contact
             </Heading>
 
-            <Text
-              style={{
-                color: "#e0f2fe",
-                marginTop: "10px",
-              }}
-            >
-              Someone has contacted you through your portfolio.
+            <Text style={styles.subtitle}>
+              Someone has submitted your portfolio contact form.
             </Text>
           </Section>
 
           {/* Content */}
-
-          <Section
-            style={{
-              padding: "30px",
-            }}
-          >
-            <Text>
+          <Section style={styles.section}>
+            <Text style={styles.text}>
               <strong>Name</strong>
             </Text>
 
-            <Text>{name}</Text>
+            <Text style={styles.text}>{name}</Text>
 
-            <Hr />
+            <Hr style={styles.hr} />
 
-            <Text>
+            <Text style={styles.text}>
               <strong>Email</strong>
             </Text>
 
-            <Text>{email}</Text>
+            <Text style={styles.text}>{email}</Text>
 
-            <Hr />
+            <Hr style={styles.hr} />
 
-            <Text>
+            <Text style={styles.text}>
               <strong>Phone</strong>
             </Text>
 
-            <Text>{phone || "Not provided"}</Text>
+            <Text style={styles.text}>
+              {phone?.trim() || "Not provided"}
+            </Text>
 
-            <Hr />
+            <Hr style={styles.hr} />
 
-            <Text>
+            <Text style={styles.text}>
               <strong>Subject</strong>
             </Text>
 
-            <Text>{subject}</Text>
+            <Text style={styles.text}>{subject}</Text>
 
-            <Hr />
+            <Hr style={styles.hr} />
 
-            <Text>
+            <Text style={styles.text}>
               <strong>Message</strong>
             </Text>
 
             <Section
-              style={{
-                background: "#f8fafc",
-                padding: "18px",
-                borderRadius: "10px",
-                border: "1px solid #e2e8f0",
-              }}
+              style={styles.messageBox}
             >
               <Text
                 style={{
+                  ...styles.text,
                   whiteSpace: "pre-wrap",
-                  lineHeight: "1.8",
+                  margin: 0,
                 }}
               >
                 {message}
               </Text>
             </Section>
 
-            <Hr />
+            <Hr style={styles.hr} />
 
             <Button
-              href={`mailto:${email}`}
+              href={`mailto:${email}?subject=Re: ${encodeURIComponent(subject)}`}
               style={{
-                backgroundColor: "#2563eb",
-                color: "#ffffff",
-                padding: "12px 22px",
-                borderRadius: "8px",
-                textDecoration: "none",
-                display: "inline-block",
-                marginTop: "20px",
+                ...styles.button,
+                ...styles.buttonSpacing,
               }}
             >
-              Reply to {name}
+              ✉️ Reply to {name}
             </Button>
           </Section>
 
           {/* Footer */}
-
-          <Section
-            style={{
-              background: "#111827",
-              padding: "20px",
-              textAlign: "center",
-            }}
-          >
-            <Text
-              style={{
-                color: "#9ca3af",
-                fontSize: "13px",
-              }}
-            >
-              © {new Date().getFullYear()} Sathvik Saran Atchukolu
+          <Section style={styles.footer}>
+            <Text style={styles.footerText}>
+              © {new Date().getFullYear()} {SITE.name}
             </Text>
 
-            <Text
-              style={{
-                color: "#6b7280",
-                fontSize: "12px",
-              }}
-            >
+            <Text style={styles.footerSmall}>
               Portfolio Contact Notification
             </Text>
           </Section>

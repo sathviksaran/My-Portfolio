@@ -1,22 +1,31 @@
 "use client";
 
-import { Loader2, Send, CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Loader2, Send } from "lucide-react";
 
 import { Button } from "@/components/ui/Button";
 
+export type SubmitStatus =
+  | "idle"
+  | "loading"
+  | "success";
+
 interface SubmitButtonProps {
-  loading: boolean;
-  submitted: boolean;
+  status: SubmitStatus;
 }
 
 export default function SubmitButton({
-  loading,
-  submitted,
+  status,
 }: SubmitButtonProps) {
+  const isLoading = status === "loading";
+  const isSuccess = status === "success";
+  const isDisabled = isLoading || isSuccess;
+
   return (
     <Button
       type="submit"
-      disabled={loading || submitted}
+      disabled={isDisabled}
+      aria-disabled={isDisabled}
+      aria-busy={isLoading}
       className="
         h-12
         w-full
@@ -36,19 +45,28 @@ export default function SubmitButton({
         disabled:opacity-70
       "
     >
-      {loading ? (
+      {isLoading ? (
         <>
-          <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+          <Loader2
+            className="mr-2 h-5 w-5 animate-spin"
+            aria-hidden="true"
+          />
           Sending...
         </>
-      ) : submitted ? (
+      ) : isSuccess ? (
         <>
-          <CheckCircle2 className="mr-2 h-5 w-5" />
+          <CheckCircle2
+            className="mr-2 h-5 w-5"
+            aria-hidden="true"
+          />
           Message Sent
         </>
       ) : (
         <>
-          <Send className="mr-2 h-5 w-5" />
+          <Send
+            className="mr-2 h-5 w-5"
+            aria-hidden="true"
+          />
           Send Message
         </>
       )}

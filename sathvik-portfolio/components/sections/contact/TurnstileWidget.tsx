@@ -1,18 +1,22 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Turnstile from "react-turnstile";
+import { Turnstile } from "@marsidev/react-turnstile";
+
+import { env } from "@/lib/env.client";
 
 interface TurnstileWidgetProps {
-  onVerify: (token: string) => void;
+  onSuccess: (token: string) => void;
   onExpire: () => void;
   onError: () => void;
+  className?: string;
 }
 
 export default function TurnstileWidget({
-  onVerify,
+  onSuccess,
   onExpire,
   onError,
+  className = "flex justify-center",
 }: TurnstileWidgetProps) {
   const [mounted, setMounted] = useState(false);
 
@@ -24,14 +28,18 @@ export default function TurnstileWidget({
     return () => cancelAnimationFrame(id);
   }, []);
 
-  if (!mounted) return null;
+  if (!mounted) {
+    return null;
+  }
 
   return (
-    <div className="flex justify-center">
+    <div className={className}>
       <Turnstile
-        sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
-        theme="auto"
-        onVerify={onVerify}
+        siteKey={env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+        options={{
+          theme: "auto",
+        }}
+        onSuccess={onSuccess}
         onExpire={onExpire}
         onError={onError}
       />

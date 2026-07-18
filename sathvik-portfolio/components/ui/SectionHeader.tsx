@@ -6,6 +6,7 @@ interface SectionHeaderProps {
   highlight?: string;
   description?: string;
   align?: "left" | "center";
+  titleId?: string;
 }
 
 export default function SectionHeader({
@@ -14,6 +15,7 @@ export default function SectionHeader({
   highlight,
   description,
   align = "center",
+  titleId,
 }: SectionHeaderProps) {
   return (
     <motion.div
@@ -99,6 +101,7 @@ export default function SectionHeader({
     {description}
   </p>
 )}
+<h2 id={titleId}>{title}</h2>
     </motion.div>
   );
 }

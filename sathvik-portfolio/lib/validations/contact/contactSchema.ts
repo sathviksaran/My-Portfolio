@@ -20,7 +20,7 @@ export const contactSchema = z.object({
       (value) =>
         !value ||
         /^(\+?\d{1,4}[- ]?)?\d{10}$/.test(
-          value.replace(/\s/g, "")
+          value.replace(/[\s-]/g, "")
         ),
       {
         message: "Please enter a valid phone number.",

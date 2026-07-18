@@ -1,8 +1,9 @@
 "use client";
 
+import type { ReactNode } from "react";
+
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ReactNode } from "react";
 
 import GlassCard from "@/components/ui/GlassCard";
 
@@ -19,6 +20,8 @@ export default function ContactCard({
   value,
   href,
 }: ContactCardProps) {
+  const isExternal = href?.startsWith("http");
+
   const content = (
     <div className="flex items-start gap-4">
       <div
@@ -30,11 +33,12 @@ export default function ContactCard({
           dark:bg-blue-500/20
           dark:text-blue-400
         "
+        aria-hidden="true"
       >
         {icon}
       </div>
 
-      <div>
+      <div className="min-w-0">
         <h4 className="text-lg font-semibold text-slate-900 dark:text-white">
           {title}
         </h4>
@@ -55,15 +59,14 @@ export default function ContactCard({
         {href ? (
           <Link
             href={href}
-            target={
-              href.startsWith("http") ? "_blank" : undefined
-            }
+            target={isExternal ? "_blank" : undefined}
             rel={
-              href.startsWith("http")
+              isExternal
                 ? "noopener noreferrer"
                 : undefined
             }
             className="block hover:text-blue-600 dark:hover:text-blue-400"
+            aria-label={`${title}: ${value}`}
           >
             {content}
           </Link>

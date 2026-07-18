@@ -12,8 +12,11 @@ import {
   Text,
 } from "@react-email/components";
 
+import { SITE } from "@/lib/constants/site";
+import { styles } from "./styles";
+
 interface ContactConfirmationProps {
-  name: string;
+  readonly name: string;
 }
 
 export default function ContactConfirmation({
@@ -24,185 +27,99 @@ export default function ContactConfirmation({
       <Head />
 
       <Preview>
-        Thank you for contacting Sathvik Saran
+        🎉 Thanks for reaching out! I&apos;ve received your message and will respond
+        within {SITE.responseTime}.
       </Preview>
 
-      <Body
-        style={{
-          backgroundColor: "#f4f4f5",
-          fontFamily:
-            "Inter, Arial, Helvetica, sans-serif",
-          padding: "30px 0",
-        }}
-      >
-        <Container
-          style={{
-            maxWidth: "620px",
-            margin: "0 auto",
-            backgroundColor: "#ffffff",
-            borderRadius: "16px",
-            overflow: "hidden",
-            border: "1px solid #e5e7eb",
-          }}
-        >
+      <Body style={styles.body}>
+        <Container style={styles.container}>
           {/* Header */}
-
-          <Section
-            style={{
-              background:
-                "linear-gradient(135deg,#2563eb,#06b6d4)",
-              textAlign: "center",
-              padding: "40px",
-            }}
-          >
-            <Heading
-              style={{
-                color: "#ffffff",
-                margin: 0,
-                fontSize: "30px",
-              }}
-            >
+          <Section style={styles.header}>
+            <Heading style={styles.heading}>
               🎉 Thank You!
             </Heading>
 
-            <Text
-              style={{
-                color: "#dbeafe",
-                marginTop: "12px",
-              }}
-            >
-              Your message has been received.
+            <Text style={styles.subtitle}>
+              Your message has been received successfully.
             </Text>
           </Section>
 
-          {/* Body */}
-
-          <Section
-            style={{
-              padding: "35px",
-            }}
-          >
-            <Text
-              style={{
-                fontSize: "16px",
-              }}
-            >
+          {/* Content */}
+          <Section style={styles.section}>
+            <Text style={styles.text}>
               Hi <strong>{name}</strong>,
             </Text>
 
-            <Text
-              style={{
-                lineHeight: "1.8",
-              }}
-            >
-              Thank you for reaching out through my
-              portfolio website.
+            <Text style={styles.text}>
+              Thank you for reaching out through my portfolio website.
             </Text>
 
-            <Text
-              style={{
-                lineHeight: "1.8",
-              }}
-            >
-              I&apos;ve successfully received your message
-              and will review it as soon as possible.
-              I usually respond within
-              <strong> 24–48 hours.</strong>
+            <Text style={styles.text}>
+              I&apos;ve successfully received your message and will review it as soon
+              as possible. I typically respond within{" "}
+              <strong>{SITE.responseTime}</strong>.
             </Text>
 
-            <Hr />
+            <Hr style={styles.hr} />
 
-            <Heading
-              as="h3"
-              style={{
-                fontSize: "20px",
-              }}
-            >
-              Meanwhile, you can explore:
+            <Heading as="h3" style={styles.h3}>
+              Meanwhile, feel free to explore my work:
             </Heading>
 
-            <Text>
-              💻 GitHub:
+            <Text style={styles.text}>
+              💻 <strong>GitHub</strong>
             </Text>
 
-            <Link href="https://github.com/YOUR_GITHUB_USERNAME">
-              https://github.com/YOUR_GITHUB_USERNAME
-            </Link>
+            <Link href={SITE.github}>{SITE.github}</Link>
 
-            <Text style={{ marginTop: "15px" }}>
-              💼 LinkedIn:
-            </Text>
-
-            <Link href="https://linkedin.com/in/YOUR_LINKEDIN_USERNAME">
-              https://linkedin.com/in/YOUR_LINKEDIN_USERNAME
-            </Link>
-
-            <Hr />
-
-            <Button
-              href="https://your-portfolio.vercel.app"
+            <Text
               style={{
-                backgroundColor: "#2563eb",
-                color: "#ffffff",
-                padding: "14px 24px",
-                borderRadius: "8px",
-                textDecoration: "none",
-                display: "inline-block",
-              }}
+  ...styles.text,
+  ...styles.linkSpacing,
+}}
             >
-              Visit My Portfolio
+              💼 <strong>LinkedIn</strong>
+            </Text>
+
+            <Link href={SITE.linkedin}>{SITE.linkedin}</Link>
+
+            <Hr style={styles.hr} />
+
+            <Button href={SITE.portfolio} style={styles.button}>
+              🚀 View My Portfolio
             </Button>
 
             <Text
               style={{
-                marginTop: "25px",
-                lineHeight: "1.8",
+                ...styles.text,
+                marginTop: "28px",
               }}
             >
-              Looking forward to speaking with you.
+              I appreciate you taking the time to get in touch. I look forward
+              to connecting with you soon.
             </Text>
 
-            <Text>
-              Regards,
+            <Text style={styles.text}>
+              Best regards,
             </Text>
 
-            <Text>
-              <strong>
-                Sathvik Saran Atchukolu
-              </strong>
+            <Text style={styles.text}>
+              <strong>{SITE.name}</strong>
             </Text>
 
-            <Text>
-              Associate IT Consultant
+            <Text style={styles.text}>
+              {SITE.role}
             </Text>
           </Section>
 
           {/* Footer */}
-
-          <Section
-            style={{
-              background: "#111827",
-              textAlign: "center",
-              padding: "24px",
-            }}
-          >
-            <Text
-              style={{
-                color: "#9ca3af",
-                fontSize: "13px",
-              }}
-            >
-              © {new Date().getFullYear()} Sathvik
-              Saran Atchukolu
+          <Section style={styles.footer}>
+            <Text style={styles.footerText}>
+              © {new Date().getFullYear()} {SITE.name}
             </Text>
 
-            <Text
-              style={{
-                color: "#6b7280",
-                fontSize: "12px",
-              }}
-            >
-              Thank you for connecting!
+            <Text style={styles.footerSmall}>
+              Thank you for connecting! Have a wonderful day.
             </Text>
           </Section>
         </Container>
