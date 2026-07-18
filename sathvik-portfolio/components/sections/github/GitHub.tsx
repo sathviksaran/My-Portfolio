@@ -3,9 +3,10 @@
 import Section from "@/components/ui/Section";
 import SectionHeader from "@/components/ui/SectionHeader";
 
-import GitHubProfile from "./GithubProfile";
-import GitHubStats from "./GithubStats";
+
+import GitHubStats from "./GitHubStats";
 import FeaturedRepos from "./FeaturedRepos";
+import GitHubProfile from "./GitHubProfile";
 
 export default function GitHub() {
   return (
