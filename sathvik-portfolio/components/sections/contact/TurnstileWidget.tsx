@@ -32,6 +32,10 @@ export default function TurnstileWidget({
     return null;
   }
 
+  if (!env.NEXT_PUBLIC_TURNSTILE_SITE_KEY) {
+  return <p>Turnstile is not configured.</p>;
+}
+
   return (
     <div className={className}>
       <Turnstile
