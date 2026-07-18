@@ -287,4 +287,22 @@ export const portfolio: Portfolio = {
       category: "ML",
     },
   ],
+  github: {
+  username: "your-github-username",
+  profile: "https://github.com/your-github-username",
+  bio: "Associate IT Consultant passionate about automation, cloud computing, and full-stack development.",
+
+  featuredRepositories: [
+    {
+      name: "PregBot",
+      description: "AI-powered pregnancy support chatbot.",
+      url: "https://github.com/...",
+      technologies: [
+        "Flask",
+        "Python",
+        "MySQL",
+      ],
+    },
+  ],
+},
 };

@@ -70,6 +70,20 @@ export interface Stat {
   label: string;
 }
 
+
+export interface GitHubRepository {
+  name: string;
+  description: string;
+  url: string;
+  technologies: string[];
+}
+
+export interface GitHub {
+  username: string;
+  profile: string;
+  bio: string;
+  featuredRepositories: GitHubRepository[];
+}
 export interface Portfolio {
   personal: Personal;
   social: Social;
@@ -78,4 +92,6 @@ export interface Portfolio {
   technologies: TechnologyCategory[];
   experience: Experience[];
   projects: Project[];
+  github: GitHub;
 }
+

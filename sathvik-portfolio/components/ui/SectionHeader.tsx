@@ -4,7 +4,7 @@ interface SectionHeaderProps {
   badge?: string;
   title: string;
   highlight?: string;
-  description: string;
+  description?: string;
   align?: "left" | "center";
 }
 
@@ -85,19 +85,20 @@ export default function SectionHeader({
         )}
       </h2>
 
-      <p
-        className="
-          mx-auto
-          mt-6
-          max-w-3xl
-          text-lg
-          leading-8
-          text-slate-600
-          dark:text-slate-400
-        "
-      >
-        {description}
-      </p>
+      {description && (
+  <p
+    className={`
+      mt-6
+      text-lg
+      leading-8
+      text-slate-600
+      dark:text-slate-400
+      ${align === "center" ? "mx-auto max-w-3xl" : "max-w-3xl"}
+    `}
+  >
+    {description}
+  </p>
+)}
     </motion.div>
   );
 }
