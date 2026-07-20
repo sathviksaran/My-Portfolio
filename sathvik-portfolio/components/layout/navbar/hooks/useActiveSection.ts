@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { NAV_LINKS } from "@/lib/constants/navigation";
 
+const NAVBAR_HEIGHT = 80;
+
 export function useActiveSection() {
   const [activeSection, setActiveSection] = useState(
     NAV_LINKS[0]?.href.replace("#", "") ?? ""
@@ -10,34 +12,34 @@ export function useActiveSection() {
 
   useEffect(() => {
     const sections = NAV_LINKS.map(({ href }) =>
-      document.querySelector(href)
+      document.getElementById(href.slice(1))
     ).filter((section): section is HTMLElement => section instanceof HTMLElement);
 
-    if (sections.length === 0) return;
+    if (!sections.length) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort(
-            (a, b) =>
-              b.intersectionRatio - a.intersectionRatio
-          );
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + NAVBAR_HEIGHT + 20;
 
-        if (visible.length > 0) {
-          setActiveSection(visible[0].target.id);
+      let currentSection = sections[0].id;
+
+      for (const section of sections) {
+        if (scrollPosition >= section.offsetTop) {
+          currentSection = section.id;
         }
-      },
-      {
-        root: null,
-        rootMargin: "-20% 0px -55% 0px",
-        threshold: [0.2, 0.4, 0.6],
       }
-    );
 
-    sections.forEach((section) => observer.observe(section));
+      setActiveSection((prev) =>
+        prev === currentSection ? prev : currentSection
+      );
+    };
 
-    return () => observer.disconnect();
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
+
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return activeSection;

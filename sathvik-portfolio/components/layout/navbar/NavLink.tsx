@@ -21,10 +21,14 @@ export default function NavLink({
     <Link
       href={href}
       onClick={onClick}
-      aria-current={active ? "page" : undefined}
+      aria-current={active ? "location" : undefined}
       className={cn(
-        "relative transition-all duration-200",
-        "focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950",
+        "group relative transition-all duration-200",
+        "focus:outline-none",
+        "focus-visible:ring-2",
+        "focus-visible:ring-blue-500",
+        "focus-visible:ring-offset-2",
+        "dark:focus-visible:ring-offset-slate-950",
 
         isMobile
           ? [
@@ -43,6 +47,21 @@ export default function NavLink({
     >
       {label}
 
+      {/* Hover Underline */}
+      {!isMobile && (
+        <span
+          className={cn(
+            "absolute -bottom-1 left-0 h-0.5 w-full rounded-full",
+            "origin-left scale-x-0",
+            "bg-slate-300 dark:bg-slate-600",
+            "transition-transform duration-200 ease-out",
+            "group-hover:scale-x-100",
+            active && "hidden"
+          )}
+        />
+      )}
+
+      {/* Active Underline */}
       {!isMobile && active && (
         <motion.span
           layoutId="active-nav-indicator"
