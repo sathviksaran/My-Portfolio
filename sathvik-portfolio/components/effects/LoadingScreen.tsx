@@ -1,21 +1,22 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { useReducedMotion } from "framer-motion";
+
 import { SITE } from "@/lib/constants/site";
+
+const LOADING_DURATION = 1800; // milliseconds
 
 export default function LoadingScreen() {
   const shouldReduceMotion = useReducedMotion();
-
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const id = requestAnimationFrame(() => {
+    const timer = window.setTimeout(() => {
       setMounted(true);
-    });
+    }, LOADING_DURATION);
 
-    return () => cancelAnimationFrame(id);
+    return () => window.clearTimeout(timer);
   }, []);
 
   return (
@@ -31,7 +32,7 @@ export default function LoadingScreen() {
             scale: 1.02,
             filter: "blur(8px)",
             transition: {
-              duration: 0.6,
+              duration: shouldReduceMotion ? 0 : 0.6,
               ease: "easeOut",
             },
           }}
@@ -106,32 +107,20 @@ export default function LoadingScreen() {
               {SITE.role}
             </motion.p>
 
-            {/* Animated Loader */}
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: "16rem" }}
-              transition={{
-                duration: 0.8,
-                ease: "easeInOut",
-              }}
-              className="mt-10 h-1 overflow-hidden rounded-full bg-slate-800 md:w-72"
-            >
+            {/* Progress Track */}
+            <div className="mt-10 h-1 w-64 overflow-hidden rounded-full bg-slate-800 md:w-72">
               <motion.div
-                className="h-full rounded-full bg-gradient-to-r from-blue-500 via-cyan-400 to-indigo-500"
-                animate={
-                  shouldReduceMotion
-                    ? {}
-                    : {
-                        x: ["-100%", "100%"],
-                      }
-                }
+                initial={{ width: 0 }}
+                animate={{ width: "100%" }}
                 transition={{
-                  duration: 1.2,
-                  repeat: Infinity,
-                  ease: "linear",
+                  duration: shouldReduceMotion
+                    ? 0
+                    : LOADING_DURATION / 1000,
+                  ease: "easeInOut",
                 }}
+                className="h-full rounded-full bg-gradient-to-r from-blue-500 via-cyan-400 to-indigo-500"
               />
-            </motion.div>
+            </div>
           </div>
         </motion.div>
       )}
