@@ -302,8 +302,8 @@ export const portfolio: Portfolio = {
     },
   ],
   github: {
-  username: "your-github-username",
-  profile: "https://github.com/your-github-username",
+  username: "sathviksaran",
+  profile: "https://github.com/sathviksaran",
   bio: "Associate IT Consultant passionate about automation, cloud computing, and full-stack development.",
 
   featuredRepositories: [
