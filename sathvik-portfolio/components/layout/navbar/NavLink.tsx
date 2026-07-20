@@ -20,7 +20,6 @@ export default function NavLink({
   return (
     <Link
       href={href}
-      scroll={false}
       onClick={onClick}
       aria-current={active ? "page" : undefined}
       className={cn(
