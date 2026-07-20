@@ -7,26 +7,6 @@ export default function FooterBottom() {
         <p>
           © {new Date().getFullYear()} {SITE.name}. All rights reserved.
         </p>
-
-        <p>
-          Built with{" "}
-          <span className="font-medium text-foreground">
-            Next.js
-          </span>
-          ,{" "}
-          <span className="font-medium text-foreground">
-            TypeScript
-          </span>
-          ,{" "}
-          <span className="font-medium text-foreground">
-            Tailwind CSS
-          </span>
-          {" "}and{" "}
-          <span className="font-medium text-foreground">
-            Framer Motion
-          </span>
-          .
-        </p>
       </div>
     </div>
   );
