@@ -1,99 +1,99 @@
 "use client";
 
-import { Moon, Sun, Monitor } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
+import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-
-import { Button } from "@/components/ui/Button";
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 export default function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
 
   const isDark = resolvedTheme === "dark";
 
+  const toggleTheme = () => {
+    setTheme(isDark ? "light" : "dark");
+  };
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger
-        render={
-          <Button
-            variant="outline"
-            size="icon"
-            className="
-              relative
-              h-10
-              w-10
-              overflow-hidden
-              rounded-xl
-              border-slate-700
-              bg-transparent
-              transition-all
-              duration-300
-              hover:scale-105
-              hover:border-blue-500
-            "
-            aria-label="Toggle Theme"
-          />
-        }
+    <button
+      type="button"
+      role="switch"
+      aria-label="Toggle theme"
+      aria-checked={isDark}
+      onClick={toggleTheme}
+      className="
+        relative
+        flex
+        h-10
+        w-20
+        items-center
+        rounded-full
+        border
+        border-border
+        bg-muted/60
+        p-1
+        shadow-sm
+        backdrop-blur
+        transition-colors
+        duration-300
+        hover:border-primary/40
+        focus-visible:outline-none
+        focus-visible:ring-2
+        focus-visible:ring-primary
+      "
+    >
+      {/* Background Icons */}
+      <Sun
+        className="
+          absolute
+          left-2
+          h-4
+          w-4
+          text-amber-500
+          opacity-70
+        "
+      />
+
+      <Moon
+        className="
+          absolute
+          right-2
+          h-4
+          w-4
+          text-slate-500
+          dark:text-slate-300
+          opacity-70
+        "
+      />
+
+      {/* Sliding Knob */}
+      <motion.div
+        layout
+        transition={{
+          type: "spring",
+          stiffness: 550,
+          damping: 32,
+        }}
+        animate={{
+          x: isDark ? "100%" : "0%",
+        }}
+        className="
+          z-10
+          flex
+          h-8
+          w-8
+          items-center
+          justify-center
+          rounded-full
+          bg-background
+          shadow-md
+        "
       >
-        <AnimatePresence mode="wait">
-
-          <motion.div
-            key={resolvedTheme}
-            initial={{
-              rotate: -180,
-              opacity: 0,
-              scale: 0.5,
-            }}
-            animate={{
-              rotate: 0,
-              opacity: 1,
-              scale: 1,
-            }}
-            exit={{
-              rotate: 180,
-              opacity: 0,
-              scale: 0.5,
-            }}
-            transition={{
-              duration: 0.25,
-            }}
-          >
-            {isDark ? (
-              <Sun className="h-5 w-5" />
-            ) : (
-              <Moon className="h-5 w-5" />
-            )}
-          </motion.div>
-
-        </AnimatePresence>
-      </DropdownMenuTrigger>
-
-      <DropdownMenuContent
-        align="end"
-        className="w-44"
-      >
-        <DropdownMenuItem onClick={() => setTheme("light")}>
-          <Sun className="mr-2 h-4 w-4" />
-          Light
-        </DropdownMenuItem>
-
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
-          <Moon className="mr-2 h-4 w-4" />
-          Dark
-        </DropdownMenuItem>
-
-        <DropdownMenuItem onClick={() => setTheme("system")}>
-          <Monitor className="mr-2 h-4 w-4" />
-          System
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+        {isDark ? (
+          <Moon className="h-4 w-4 text-blue-500" />
+        ) : (
+          <Sun className="h-4 w-4 text-amber-500" />
+        )}
+      </motion.div>
+    </button>
   );
 }

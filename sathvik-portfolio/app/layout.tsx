@@ -2,14 +2,13 @@ import "./globals.css";
 
 import ThemeProvider from "@/components/providers/ThemeProvider";
 
-import LoadingScreen from "@/components/LoadingScreen";
+import LoadingScreen from "@/components/effects/LoadingScreen";
 import Background from "@/components/effects/Background";
 import CursorGlow from "@/components/effects/CursorGlow";
 import ScrollProgress from "@/components/effects/ScrollProgress";
-import BackToTop from "@/components/effects/BackToTop";
 
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
+import Navbar from "@/components/layout/navbar/Navbar";
+import Footer from "@/components/sections/footer/Footer";
 
 import { Toaster } from "react-hot-toast";
 
@@ -50,7 +49,6 @@ export default function RootLayout({
 
           <Footer />
 
-          <BackToTop />
         </ThemeProvider>
       </body>
     </html>

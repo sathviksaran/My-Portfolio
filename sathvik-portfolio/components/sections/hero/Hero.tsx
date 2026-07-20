@@ -1,5 +1,7 @@
 "use client";
 
+import FloatingParticles from "@/components/effects/FloatingParticles";
+
 import HeroBackground from "./HeroBackground";
 import HeroLeft from "./HeroLeft";
 import HeroRight from "./HeroRight";
@@ -12,9 +14,14 @@ export default function Hero() {
       id="home"
       className="relative flex min-h-screen items-center overflow-hidden pt-24"
     >
+      {/* Background */}
       <HeroBackground />
 
-      <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
+      {/* Floating Particles */}
+      <FloatingParticles />
+
+      {/* Content */}
+      <div className="relative z-10 mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
         <div className="grid items-center gap-16 lg:grid-cols-2">
           <HeroLeft />
           <HeroRight />

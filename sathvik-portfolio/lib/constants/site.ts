@@ -7,4 +7,8 @@ export const SITE = {
   github: "https://github.com/yourusername",
   linkedin: "https://linkedin.com/in/yourusername",
   responseTime: "24–48 hours",
+  tagline:
+    "Building scalable web applications, workflow automation, and cloud-powered solutions.",
+  email: "sathviksaran.dev@gmail.com",
+  resume: "Sathvik_Saran_Resume.pdf",
 } as const;

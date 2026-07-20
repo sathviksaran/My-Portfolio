@@ -1,8 +1,17 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
-const particles = [
+interface Particle {
+  id: number;
+  left: number;
+  top: number;
+  size: number;
+  duration: number;
+  delay: number;
+}
+
+const particles: Particle[] = [
   { id: 1, left: 5, top: 8, size: 5, duration: 18, delay: 0 },
   { id: 2, left: 15, top: 30, size: 8, duration: 20, delay: 1 },
   { id: 3, left: 25, top: 70, size: 6, duration: 15, delay: 2 },
@@ -26,8 +35,13 @@ const particles = [
 ];
 
 export default function FloatingParticles() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 overflow-hidden"
+    >
       {particles.map((particle) => (
         <motion.div
           key={particle.id}
@@ -35,12 +49,16 @@ export default function FloatingParticles() {
             opacity: 0.25,
             scale: 1,
           }}
-          animate={{
-            y: [-20, 20, -20],
-            x: [-10, 10, -10],
-            scale: [1, 1.3, 1],
-            opacity: [0.25, 0.7, 0.25],
-          }}
+          animate={
+            shouldReduceMotion
+              ? {}
+              : {
+                  y: [-20, 20, -20],
+                  x: [-10, 10, -10],
+                  scale: [1, 1.3, 1],
+                  opacity: [0.25, 0.7, 0.25],
+                }
+          }
           transition={{
             duration: particle.duration,
             repeat: Infinity,
@@ -60,8 +78,11 @@ export default function FloatingParticles() {
             from-blue-400
             via-cyan-400
             to-indigo-400
-            shadow-lg
-            shadow-cyan-500/40
+            opacity-70
+            shadow-md
+            shadow-cyan-500/30
+            dark:shadow-cyan-400/40
+            will-change-transform
           "
         />
       ))}
