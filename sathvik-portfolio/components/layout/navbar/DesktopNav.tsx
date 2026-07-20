@@ -14,7 +14,7 @@ interface DesktopNavProps {
 import dynamic from "next/dynamic";
 
 const ThemeToggle = dynamic(
-  () => import("@/components/layout/ThemeToggle"),
+  () => import("@/components/ui/ThemeSwitch"),
   {
     ssr: false,
     loading: () => (

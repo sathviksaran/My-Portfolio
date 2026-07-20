@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Menu, Download } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 
-import ThemeToggle from "@/components/layout/ThemeToggle";
+import ThemeToggle from "@/components/ui/ThemeSwitch";
 import NavLink from "./NavLink";
 import { NAV_LINKS } from "@/lib/constants/navigation";
 import { SITE } from "@/lib/constants/site";
