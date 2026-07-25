@@ -18,7 +18,6 @@ export async function sendContactForm(
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
-    cache: "no-store",
   });
 
   let result: ContactResponse;
@@ -30,7 +29,7 @@ export async function sendContactForm(
   }
 
   if (!response.ok) {
-    throw new Error(result.message);
+    throw new Error(result.message || "Something went wrong.");
   }
 
   return result;

@@ -303,6 +303,7 @@ export const portfolio: Portfolio = {
   ],
   github: {
   username: "sathviksaran",
+  avatar: "https://avatars.githubusercontent.com/sathviksaran",
   profile: "https://github.com/sathviksaran",
   bio: "Associate IT Consultant passionate about automation, cloud computing, and full-stack development.",
 

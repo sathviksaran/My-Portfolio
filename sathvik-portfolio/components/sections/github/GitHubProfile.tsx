@@ -19,7 +19,7 @@ export default function GitHubProfile() {
       <GlassCard className="p-8">
         <div className="flex flex-col items-center gap-6 md:flex-row">
           <Image
-            src={`https://github.com/${portfolio.github.username}.png`}
+            src={portfolio.github.avatar}
             alt={portfolio.personal.fullName}
             width={120}
             height={120}

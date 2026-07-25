@@ -82,6 +82,7 @@ export interface GitHubRepository {
 
 export interface GitHub {
   username: string;
+  avatar: string;
   profile: string;
   bio: string;
   featuredRepositories: GitHubRepository[];

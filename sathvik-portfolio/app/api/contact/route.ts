@@ -5,7 +5,6 @@ import { verifyTurnstile } from "@/lib/turnstile";
 import { contactSchema } from "@/lib/validations/contact/contactSchema";
 
 import ContactNotification from "@/emails/ContactNotification";
-import ContactConfirmation from "@/emails/ContactConfirmation";
 import { env } from "@/lib/env.server";
 
 export async function POST(req: NextRequest) {
@@ -68,47 +67,26 @@ const { token, ...contactData } = body;
       message,
     } = validated.data;
 
-    const [notificationResult, confirmationResult] =
-      await Promise.all([
-        resend.emails.send({
-          from: env.EMAIL_FROM,
-
-          to: env.CONTACT_EMAIL,
-
-          replyTo: email,
-
-          subject: `📩 ${subject}`,
-
-          react: ContactNotification({
-            name,
-            email,
-            phone,
-            subject,
-            message,
-          }),
-        }),
-
-        resend.emails.send({
-          from: env.EMAIL_REPLY_FROM,
-
-          to: email,
-
-          subject: "Thank you for contacting me!",
-
-          react: ContactConfirmation({
-            name,
-          }),
-        }),
-      ]);
+    const notificationResult = await resend.emails.send({
+  from: env.EMAIL_FROM,
+  to: env.CONTACT_EMAIL,
+  replyTo: email,
+  subject: `📩 ${subject}`,
+  react: ContactNotification({
+    name,
+    email,
+    phone,
+    subject,
+    message,
+  }),
+});
 
     if (
-      notificationResult.error ||
-      confirmationResult.error
+      notificationResult.error
     ) {
       console.error(
         "Resend Error:",
-        notificationResult.error ??
-          confirmationResult.error
+        notificationResult.error
       );
 
       return NextResponse.json(

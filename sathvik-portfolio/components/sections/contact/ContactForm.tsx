@@ -1,15 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import GlassCard from "@/components/ui/GlassCard";
 import SubmitButton from "./SubmitButton";
-
 import ContactField from "./ContactField";
 import ContactTextarea from "./ContactTextArea";
 import ContactStatus from "./ContactStatus";
+import TurnstileWidget from "./TurnstileWidget";
+import ContactSuccess from "./ContactSuccess";
 
 import {
   contactSchema,
@@ -19,14 +20,15 @@ import {
 import type { ContactStatusState } from "@/types/contact";
 
 import { sendContactForm } from "@/app/api/contact/contact";
-import TurnstileWidget from "./TurnstileWidget";
-
 
 export default function ContactForm() {
   const [status, setStatus] =
-  useState<ContactStatusState | null>(null);
+    useState<ContactStatusState | null>(null);
 
   const [token, setToken] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [submittedName, setSubmittedName] = useState("");
+  const [captchaResetKey, setCaptchaResetKey] = useState(0);
 
   const {
     register,
@@ -48,51 +50,58 @@ export default function ContactForm() {
     },
   });
 
-  const message = useWatch({ control, name: "message" })
-
-  useEffect(() => {
-    if (status?.type !== "success") return;
-
-    const timer = setTimeout(() => {
-      setStatus(null);
-    }, 5000);
-
-    return () => clearTimeout(timer);
-  }, [status]);
+  const message = useWatch({
+    control,
+    name: "message",
+  });
 
   async function onSubmit(data: ContactFormData) {
-  setStatus(null);
+    setStatus(null);
 
-  if (!token) {
-    setStatus({
-      type: "error",
-      message: "Please complete the CAPTCHA verification.",
-    });
-    return;
+    if (!token) {
+      setStatus({
+        type: "error",
+        message: "Please complete the CAPTCHA verification.",
+      });
+      return;
+    }
+
+    try {
+      await sendContactForm({
+  ...data,
+  token,
+});
+
+setSubmittedName(data.name);
+
+reset();
+setToken("");
+setCaptchaResetKey((value) => value + 1);
+setSubmitted(true);
+    } catch (error) {
+      setStatus({
+        type: "error",
+        message:
+          error instanceof Error
+            ? error.message
+            : "Something went wrong. Please try again.",
+      });
+    }
   }
 
-  try {
-    const result = await sendContactForm({
-      ...data,
-      token,
-    });
-
-    setStatus({
-      type: "success",
-      message: result.message,
-    });
-
-    reset();
-    setToken("");
-  } catch (error) {
-    setStatus({
-      type: "error",
-      message:
-        error instanceof Error
-          ? error.message
-          : "Something went wrong. Please try again.",
-    });
-  }
+  if (submitted) {
+  return (
+    <GlassCard className="p-8">
+      <ContactSuccess
+        name={submittedName}
+        onReset={() => {
+          setSubmitted(false);
+          setSubmittedName("");
+          setStatus(null);
+        }}
+      />
+    </GlassCard>
+  );
 }
 
   return (
@@ -101,72 +110,69 @@ export default function ContactForm() {
         onSubmit={handleSubmit(onSubmit)}
         noValidate
       >
-        <fieldset disabled={isSubmitting} className="space-y-5">
+        <fieldset
+          disabled={isSubmitting}
+          className="space-y-5"
+        >
+          <ContactField
+            label="Name"
+            required
+            placeholder="John Doe"
+            autoComplete="name"
+            registration={register("name")}
+            error={errors.name}
+          />
 
-        <ContactField
-          label="Name"
-          required
-          placeholder="John Doe"
-          autoComplete="name"
-          registration={register("name")}
-          error={errors.name}
-        />
+          <ContactField
+            label="Email"
+            type="email"
+            required
+            placeholder="john@example.com"
+            autoComplete="email"
+            registration={register("email")}
+            error={errors.email}
+          />
 
-        <ContactField
-          label="Email"
-          type="email"
-          required
-          placeholder="john@example.com"
-          autoComplete="email"
-          registration={register("email")}
-          error={errors.email}
-        />
+          <ContactField
+            label="Phone"
+            type="tel"
+            placeholder="+91 9876543210"
+            autoComplete="tel"
+            registration={register("phone")}
+            error={errors.phone}
+          />
 
-        <ContactField
-          label="Phone"
-          type="tel"
-          placeholder="+91 9876543210"
-          autoComplete="tel"
-          registration={register("phone")}
-          error={errors.phone}
-        />
+          <ContactField
+            label="Subject"
+            required
+            placeholder="Project Inquiry"
+            registration={register("subject")}
+            error={errors.subject}
+          />
 
-        <ContactField
-          label="Subject"
-          required
-          placeholder="Project Inquiry"
-          registration={register("subject")}
-          error={errors.subject}
-        />
+          <ContactTextarea
+            label="Message"
+            registration={register("message")}
+            error={errors.message}
+            required
+            maxLength={500}
+            currentLength={message?.length ?? 0}
+            placeholder="Tell me about your project..."
+          />
 
-        <ContactTextarea
-  label="Message"
-  registration={register("message")}
-  error={errors.message}
-  required
-  maxLength={500}
-  currentLength={message?.length ?? 0}
-  placeholder="Tell me about your project..."
-/>
+          <TurnstileWidget
+            resetKey={captchaResetKey}
+            onSuccess={setToken}
+            onExpire={() => setToken("")}
+            onError={() => setToken("")}
+          />
 
-<TurnstileWidget
-  onSuccess={setToken}
-  onExpire={() => setToken("")}
-  onError={() => setToken("")}
-/>
+          <ContactStatus status={status} />
 
-        <ContactStatus status={status} />
-
-        <SubmitButton
-  status={
-    isSubmitting
-      ? "loading"
-      : status?.type === "success"
-      ? "success"
-      : "idle"
-  }
-/>
-</fieldset>
+          <SubmitButton
+            status={isSubmitting ? "loading" : "idle"}
+          />
+        </fieldset>
       </form>
     </GlassCard>
   );

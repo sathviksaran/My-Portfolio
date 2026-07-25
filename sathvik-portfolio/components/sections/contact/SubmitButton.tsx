@@ -6,8 +6,7 @@ import { Button } from "@/components/ui/Button";
 
 export type SubmitStatus =
   | "idle"
-  | "loading"
-  | "success";
+  | "loading";
 
 interface SubmitButtonProps {
   status: SubmitStatus;
@@ -17,8 +16,7 @@ export default function SubmitButton({
   status,
 }: SubmitButtonProps) {
   const isLoading = status === "loading";
-  const isSuccess = status === "success";
-  const isDisabled = isLoading || isSuccess;
+  const isDisabled = isLoading;
 
   return (
     <Button
@@ -49,25 +47,15 @@ export default function SubmitButton({
         <>
           <Loader2
             className="mr-2 h-5 w-5 animate-spin"
-            aria-hidden="true"
           />
-          Sending...
-        </>
-      ) : isSuccess ? (
-        <>
-          <CheckCircle2
-            className="mr-2 h-5 w-5"
-            aria-hidden="true"
-          />
-          Message Sent
+          <span aria-live="polite">Sending...</span>
         </>
       ) : (
         <>
           <Send
             className="mr-2 h-5 w-5"
-            aria-hidden="true"
           />
-          Send Message
+          <span aria-live="polite">Send Message</span>
         </>
       )}
     </Button>
