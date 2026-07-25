@@ -50,17 +50,17 @@ export const portfolio: Portfolio = {
   social: [
   {
     name: "GitHub",
-    href: "https://github.com/yourusername",
+    href: "https://github.com/sathviksaran",
     icon: <FaGithub size={20} />,
   },
   {
     name: "LinkedIn",
-    href: "https://linkedin.com/in/yourusername",
+    href: "https://linkedin.com/in/sathvik-saran-atchukolu-403733227",
     icon: <FaLinkedin size={20} />,
   },
   {
     name: "Email",
-    href: "mailto:your@email.com",
+    href: "mailto:atchukolus@email.com",
     icon: <Mail size={20} />,
   },
 ],
@@ -321,8 +321,8 @@ export const portfolio: Portfolio = {
   ],
 },
 contact: {
-  email: "your@email.com",
-  phone: "+91 9876543210",
+  email: "atchukolus@email.com",
+  phone: "+91 6302947720",
   location: "Ongole, Andhra Pradesh",
 },
 };
