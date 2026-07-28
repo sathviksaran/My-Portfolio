@@ -17,7 +17,7 @@ export const portfolio: Portfolio = {
     phone: "+91 XXXXXXXXXX",
     availability: "Open to Opportunities",
     resume: "/resume.pdf",
-    profileImage: "/images/profile.jpg",
+    profileImage: "/images/profile.png",
   },
 
   featuredTechnologies: [
